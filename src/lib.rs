@@ -12,6 +12,20 @@ impl PartialEq for Package {
     }
 }
 
+pub fn install_package(package_name: &str) {
+    Command::new("cinst")
+        .args(&[package_name, "-y"])
+        .output()
+        .expect("failed to install package");
+}
+
+pub fn uninstall_package(package_name: &str) {
+    Command::new("choco")
+        .args(&["uninstall", package_name, "-y"])
+        .output()
+        .expect("failed to uninstall package");
+}
+
 pub fn get_installed_packages() -> Vec<Package> {
     let raw_string = get_package_list_string();
     parse_packages_from_list_string(&raw_string)
